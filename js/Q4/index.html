@@ -7,20 +7,24 @@
    </head>
    <body>
       <h1 style="text-align: center">Debounce function implementation:</h1>
-      <button style="display: block; margin: 100px auto; padding: 10px">Click me repeatedly in less than 1s to avoid alerting "Hi"!</button>
+      <button style="display: block; margin: 100px auto; padding: 10px">
+         After first click, click me repeatedly in less than 1s to avoid alerting "Hi"!
+      </button>
 
       <script>
          const debounce = (func, ms) => {
             let timerID; // timerID (also func and ms) will be accessed from closure...
-            return x => {
+            return (...args) => {
                clearTimeout(timerID);
-               timerID = setTimeout(func, ms, x);
+               timerID = setTimeout(func, ms, ...args);
             };
          };
 
-         const debouncedFunc = debounce(alert, 1000);
+         const myFunc = (x, y, z) => alert(`${x} ${y} ${z}`);
 
-         document.querySelector("button").addEventListener("click", () => debouncedFunc("Hi"));
+         const myDebouncedFunc = debounce(myFunc, 1000);
+
+         document.querySelector("button").addEventListener("click", () => myDebouncedFunc("Hi", "John", "Doe!"));
       </script>
    </body>
 </html>
